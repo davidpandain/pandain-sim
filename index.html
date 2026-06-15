@@ -49,6 +49,7 @@ h1 .ko{display:block;font-family:'Noto Sans KR';font-weight:300;font-size:12px;l
 .budget-toggle{display:flex;align-items:center;gap:7px;margin-top:10px;flex-wrap:wrap}
 .btab{font-family:'Noto Sans KR',sans-serif;font-size:12px;color:var(--ink-dim);background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:6px 14px;cursor:pointer}
 .btab.on{color:var(--bg);background:var(--gold);border-color:var(--gold);font-weight:500}
+.btab-hint{font-size:11px;color:var(--ink-dim);font-variant-numeric:tabular-nums;flex:1 1 100%}
 input[type=range]{-webkit-appearance:none;width:100%;height:2px;background:var(--line);border-radius:2px;outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--gold)}
 input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;border:3px solid var(--bg)}
@@ -76,10 +77,10 @@ footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-si
   <div class="hero-mini"><div>노출/월<b id="sImp">0</b></div><div>클릭/월<b id="sClk">0</b></div><div>주문/월<b id="sOrd">0</b></div><div>매출/월<b id="sRev">₩0</b></div></div>
   <div class="cpa-note">전환당 광고비(CPA) <b id="cpa">₩0</b> · CPM·CTR·CVR로 환산한 실효 획득단가</div></div>
 <div class="sec-title">입력 변수</div>
-<div class="sec-note">탭=브랜드 / 기간=최근7일·오늘. 효율 지표는 실측 자동 적용(절대 매출·집행액은 비노출). 예산은 직접 입력해 시뮬레이션하세요. 모든 결과는 월 기준.</div>
+<div class="sec-note">탭=브랜드 / 기간=최근7일·오늘. 효율 지표는 실측 자동 적용(절대 매출·원가는 비노출). 예산은 <b style="color:var(--gold-soft)">현재 기준 30일</b>(최근7일 오늘제외 일평균×30) 또는 직접 입력으로 시뮬레이션. 모든 결과는 월 기준.</div>
 <div class="ctrl" data-key="budget" data-min="500000" data-max="150000000" data-step="500000" data-pre="₩">
   <div class="ctrl-head"><div class="ctrl-name">광고예산 <small>/월 (직접 입력)</small></div></div>
-  <div class="budget-toggle"><button class="btab on" id="btnDefault">기본 1억</button></div></div>
+  <div class="budget-toggle"><button class="btab on" id="btnDefault">기본 1억</button><button class="btab" id="btnActual">현재 기준 30일</button><span class="btab-hint" id="btnHint"></span></div></div>
 <div class="ctrl" data-key="cpm" data-min="2000" data-max="100000" data-step="500" data-pre="₩"><div class="ctrl-head"><div class="ctrl-name">CPM <small>1,000노출당</small></div></div></div>
 <div class="ctrl" data-key="ctr" data-min="0.1" data-max="8" data-step="0.1" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">CTR <small>클릭률</small></div></div></div>
 <div class="ctrl" data-key="cvr" data-min="0.1" data-max="10" data-step="0.1" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">CVR <small>구매전환율</small></div></div></div>
@@ -93,7 +94,7 @@ footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-si
 <div class="verdict" id="verdict"><div class="verdict-l">진단</div><div class="verdict-t" id="verdictText">—</div></div>
 <footer id="foot"></footer></div>
 <script>
-const SIM={"generatedAt":"2026-06-15","feePct":3,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":19054,"ctr":5.03,"cvr":5.07,"aov":49220,"cogs":32.29,"fee":3,"ship":3800,"roas":6.59},"daily":{"cpm":23597,"ctr":5.56,"cvr":7.47,"aov":53158,"cogs":38.21,"fee":3,"ship":3800,"roas":9.36}},"b1":{"label":"모아람","weekly":{"cpm":29412,"ctr":2.23,"cvr":4.17,"aov":69168,"cogs":26.5,"fee":3,"ship":3800,"roas":2.18},"daily":{"cpm":30004,"ctr":1.86,"cvr":4.41,"aov":75692,"cogs":26.86,"fee":3,"ship":3800,"roas":2.07}},"b2":{"label":"사운드판다","weekly":{"cpm":11915,"ctr":1.27,"cvr":1.39,"aov":99848,"cogs":19.06,"fee":3,"ship":3800,"roas":1.47},"daily":{"cpm":12304,"ctr":1.07,"cvr":1.46,"aov":97540,"cogs":19.55,"fee":3,"ship":3800,"roas":1.24}},"b3":{"label":"오로셀레스테","weekly":{"cpm":80177,"ctr":4.19,"cvr":1.74,"aov":160603,"cogs":22.42,"fee":3,"ship":3800,"roas":1.46},"daily":{"cpm":86587,"ctr":4.21,"cvr":1.7,"aov":181111,"cogs":23.19,"fee":3,"ship":3800,"roas":1.5}}}};
+const SIM={"generatedAt":"2026-06-15","feePct":3,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":19056,"ctr":5.01,"cvr":5.05,"aov":49374,"cogs":32.24,"fee":3,"ship":3800,"roas":6.56},"daily":{"cpm":23285,"ctr":5.36,"cvr":7.18,"aov":54094,"cogs":37.82,"fee":3,"ship":3800,"roas":8.94},"spend30":10282239},"b1":{"label":"모아람","weekly":{"cpm":29329,"ctr":2.21,"cvr":4.14,"aov":68845,"cogs":26.5,"fee":3,"ship":3800,"roas":2.15},"daily":{"cpm":29475,"ctr":1.82,"cvr":4.22,"aov":73262,"cogs":26.89,"fee":3,"ship":3800,"roas":1.91},"spend30":50094840},"b2":{"label":"사운드판다","weekly":{"cpm":11912,"ctr":1.26,"cvr":1.38,"aov":101877,"cogs":19.19,"fee":3,"ship":3800,"roas":1.49},"daily":{"cpm":12250,"ctr":1.08,"cvr":1.36,"aov":117160,"cogs":20.6,"fee":3,"ship":3800,"roas":1.4},"spend30":43894736},"b3":{"label":"오로셀레스테","weekly":{"cpm":80056,"ctr":4.17,"cvr":1.75,"aov":158432,"cogs":22.42,"fee":3,"ship":3800,"roas":1.45},"daily":{"cpm":85200,"ctr":4.12,"cvr":1.79,"aov":163000,"cogs":23.19,"fee":3,"ship":3800,"roas":1.41},"spend30":33557096}}};
 const $=id=>document.getElementById(id);
 const won=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
 const num=n=>Math.round(n).toLocaleString('ko-KR');
@@ -123,12 +124,28 @@ document.querySelectorAll('.ctrl').forEach(c=>{
   $('t_'+k).addEventListener('input',e=>{const v=parseFloat(e.target.value.replace(/,/g,''));if(!isNaN(v))sync(v,'text');});
   $('t_'+k).addEventListener('blur',()=>{$('t_'+k).value=fmt(k,state[k]);});
 });
-$('btnDefault').addEventListener('click',()=>{state.budget=DEFAULT_BUDGET;ctrls.budget.sl.value=DEFAULT_BUDGET;$('t_budget').value=fmt('budget',DEFAULT_BUDGET);$('btnDefault').classList.add('on');render();});
+let budgetMode='default'; // 'default'(1억) | 'actual'(최근7일 오늘제외 일평균×30) | 'custom'
+function spend30(){return SIM.brands[cur].spend30||null;}
+function applyBudget(){
+  const b=budgetMode==='actual'?(spend30()||DEFAULT_BUDGET):DEFAULT_BUDGET;
+  state.budget=b;ctrls.budget.sl.value=b;$('t_budget').value=fmt('budget',b);
+}
+function setBudgetButtons(){
+  $('btnDefault').classList.toggle('on',budgetMode==='default');
+  $('btnActual').classList.toggle('on',budgetMode==='actual');
+  const s=spend30();
+  $('btnActual').style.opacity=s?'1':'0.4';
+  $('btnHint').textContent = budgetMode==='custom' ? '직접 입력(커스텀)' : (s? '현재 기준 = 최근7일(오늘제외) 일평균 '+won(s/30)+' × 30 = '+won(s) : '현재 기준: 최근7일 집행 데이터 없음');
+}
+$('btnDefault').addEventListener('click',()=>{budgetMode='default';applyBudget();setBudgetButtons();render();});
+$('btnActual').addEventListener('click',()=>{if(!spend30())return;budgetMode='actual';applyBudget();setBudgetButtons();render();});
+ctrls.budget.sl.addEventListener('input',()=>{budgetMode='custom';setBudgetButtons();});
+$('t_budget').addEventListener('input',()=>{budgetMode='custom';setBudgetButtons();});
 function loadPreset(){
   const p=preset();
   ['cpm','ctr','cvr','aov','cogs','fee','ship'].forEach(k=>{const v=p[k];state[k]=v;ctrls[k].sl.value=v==null?ctrls[k].sl.min:v;$('t_'+k).value=fmt(k,v);});
-  if(state.budget==null){state.budget=DEFAULT_BUDGET;}
-  ctrls.budget.sl.value=state.budget;$('t_budget').value=fmt('budget',state.budget);
+  if(budgetMode==='custom'){ctrls.budget.sl.value=state.budget;$('t_budget').value=fmt('budget',state.budget);} else applyBudget();
+  setBudgetButtons();
   $('heroLab').textContent=SIM.brands[cur].label+' · 예상 공헌이익 / 월';
   render();
 }
@@ -161,6 +178,6 @@ function render(){
   else if(r.roas<1.8){v.className='verdict warn';vt.innerHTML='흑자지만 <span class="r">마진 '+r.margin.toFixed(1)+'%로 얇음.</span> 가장 효율 높은 한 수는 <b>'+winner.name+'('+winner.test+')</b> → +'+won(winner.delta)+'.';}
   else{v.className='verdict';vt.innerHTML='구조 건강(마진 '+r.margin.toFixed(1)+'%). 지금 집중할 단 하나는 <b>'+winner.name+'</b> — +'+won(winner.delta)+'로 가장 크게 움직임.';}
 }
-$('foot').innerHTML='데이터: '+SIM.generatedAt+' 채널 리포트(매일 자동 갱신). CPM·CTR·CVR·객단가·원가율은 실측 지표(7일 평균 / 오늘). <b style="color:var(--gold-soft)">절대 매출·집행액·원가(원)는 담지 않습니다</b> — 예산을 직접 입력해 what-if 계산.<br>수수료('+SIM.feePct+'%)·배송비(3,800원)는 가정치 — 실제 정산값으로 덮어쓰면 정확도 상승. CPA=광고비÷전환.';
+$('foot').innerHTML='데이터: '+SIM.generatedAt+' 채널 리포트(매일 자동 갱신). CPM·CTR·CVR·객단가·원가율은 실측 지표(7일 평균 / 오늘). <b style="color:var(--gold-soft)">현재 기준 30일</b> = 최근7일(오늘 제외, 24h 미완결) 일평균 집행액 × 30. 매출·원가(원)는 비노출 — 예산 입력으로 what-if 계산.<br>수수료('+SIM.feePct+'%)·배송비(3,800원)는 가정치 — 실제 정산값으로 덮어쓰면 정확도 상승. CPA=광고비÷전환.';
 loadPreset();
 </script></body></html>
