@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>브랜드별 공헌이익 시뮬레이터 — PANDAIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0e0c;--panel:#10160f;--panel2:#0d120c;--line:#1f2a1d;--green-bright:#3ba776;--gold:#c9a24b;--gold-soft:#e3c989;--ink:#e8eae3;--ink-dim:#8a948a;--red:#c25a4e;--red-soft:#e08a7e}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',sans-serif;font-weight:300;line-height:1.55;padding:0 0 60px}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+header{padding:28px 0 14px}
+.eyebrow{font-size:11px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;font-weight:500;margin-bottom:11px}
+h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:32px;line-height:1.05;letter-spacing:.5px}
+h1 .ko{display:block;font-family:'Noto Sans KR';font-weight:300;font-size:12px;letter-spacing:.04em;color:var(--ink-dim);margin-top:8px}
+.tabs{display:flex;gap:6px;margin:18px 0 6px;flex-wrap:wrap}
+.tab{flex:1;min-width:80px;padding:10px 8px;background:var(--panel2);border:1px solid var(--line);border-radius:4px;text-align:center;cursor:pointer;transition:.18s}
+.tab .tn{font-size:12px;color:var(--ink);font-weight:400}
+.tab .tr{font-size:11px;color:var(--ink-dim);margin-top:3px;font-family:'Inter',sans-serif;font-weight:600;font-variant-numeric:tabular-nums}
+.tab.on{border-color:var(--gold);background:linear-gradient(165deg,var(--panel) 0%,var(--panel2) 100%)}
+.tab.on .tn{color:var(--gold-soft)}
+.period{display:flex;gap:6px;margin:8px 0 2px}
+.ptab{flex:1;padding:8px;background:var(--panel2);border:1px solid var(--line);border-radius:20px;text-align:center;font-size:12px;color:var(--ink-dim);cursor:pointer}
+.ptab.on{color:var(--bg);background:var(--gold);border-color:var(--gold);font-weight:500}
+.hero{margin:10px 0 12px;padding:16px 18px;background:linear-gradient(165deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid var(--line);border-radius:4px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.hero::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+.hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.hero-lab{font-size:10px;letter-spacing:.3em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:4px}
+.hero-num{font-family:'Inter',sans-serif;font-size:38px;font-weight:700;line-height:1;color:var(--gold-soft);letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.hero-num.neg{color:var(--red-soft)}
+.hero-right{text-align:right;font-size:12px;color:var(--ink-dim);line-height:1.5}
+.hero-margin{color:var(--green-bright);font-weight:400}.hero-margin.neg{color:var(--red-soft)}
+.hero-mini{display:flex;gap:14px;margin-top:10px;padding-top:9px;border-top:1px solid var(--line);font-size:11px;color:var(--ink-dim)}
+.hero-mini b{display:block;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--ink);margin-top:2px;font-variant-numeric:tabular-nums}
+.cpa-note{font-size:11px;color:var(--ink-dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
+.cpa-note b{color:var(--gold-soft);font-weight:600;font-family:'Inter',sans-serif;font-size:14px;font-variant-numeric:tabular-nums}
+.sec-title{font-size:11px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;font-weight:500;margin:24px 0 4px;display:flex;align-items:center;gap:10px}
+.sec-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.sec-note{font-size:12px;color:var(--ink-dim);margin-bottom:16px}
+.ctrl{margin-bottom:18px}
+.ctrl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px;flex-wrap:wrap}
+.ctrl-name{font-size:13px;color:var(--ink);font-weight:400;flex:1 1 auto}
+.ctrl-name small{color:var(--ink-dim);font-weight:300;font-size:11px;margin-left:5px}
+.input-wrap{display:flex;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:4px;overflow:hidden;min-width:170px}
+.input-wrap .pre{padding:0 0 0 10px;color:var(--gold-soft);font-family:'Inter',sans-serif;font-size:15px;font-weight:600;flex:0 0 auto}
+.input-wrap input.txt{width:100%;flex:1 1 auto;background:transparent;border:none;outline:none;color:var(--gold-soft);font-family:'Inter',sans-serif;font-size:17px;font-weight:600;text-align:right;padding:7px 6px;font-variant-numeric:tabular-nums;min-width:0}
+.input-wrap .suf{padding:0 10px 0 2px;color:var(--ink-dim);font-size:12px}
+.input-wrap:focus-within{border-color:var(--gold)}
+.budget-toggle{display:flex;align-items:center;gap:7px;margin-top:10px;flex-wrap:wrap}
+.btab{font-family:'Noto Sans KR',sans-serif;font-size:12px;color:var(--ink-dim);background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:6px 14px;cursor:pointer}
+.btab.on{color:var(--bg);background:var(--gold);border-color:var(--gold);font-weight:500}
+input[type=range]{-webkit-appearance:none;width:100%;height:2px;background:var(--line);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--gold)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;border:3px solid var(--bg)}
+.lev-intro{font-size:13px;color:var(--ink-dim);margin-bottom:16px;line-height:1.6}.lev-intro b{color:var(--gold-soft);font-weight:400}
+.lev{margin-bottom:13px}
+.lev-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.lev-name{font-size:13px;color:var(--ink)}.lev-name .test{color:var(--ink-dim);font-size:11px;margin-left:6px}
+.lev-impact{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}.lev-impact.up{color:var(--green-bright)}.lev-impact.down{color:var(--red-soft)}
+.lev-bar{height:8px;background:var(--panel2);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+.lev-fill{height:100%;border-radius:4px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.lev-winner .lev-name::before{content:"▲ 최대 지렛대  ";color:var(--gold);font-size:10px;letter-spacing:.1em}
+.verdict{margin-top:20px;padding:16px 18px;background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--green-bright);border-radius:4px}.verdict.warn{border-left-color:var(--red)}
+.verdict-l{font-size:11px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.verdict-t{font-size:14px;color:var(--ink);line-height:1.7}.verdict-t b{color:var(--gold-soft);font-weight:500}.verdict-t .r{color:var(--red-soft);font-weight:500}
+footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:11px;color:var(--ink-dim);line-height:1.7}
+</style></head>
+<body><div class="wrap">
+<header><div class="eyebrow">Pandain · Meta → 자사몰 단위경제</div>
+<h1>브랜드별 공헌이익 시뮬레이터<span class="ko" id="subhead"></span></h1></header>
+<div class="tabs" id="tabs"></div>
+<div class="period"><button class="ptab on" id="pWeekly">최근 7일 평균</button><button class="ptab" id="pDaily">오늘(일별)</button></div>
+<div class="hero">
+  <div class="hero-row"><div><div class="hero-lab" id="heroLab">예상 공헌이익 / 월</div><div class="hero-num" id="cmBig">₩0</div></div>
+  <div class="hero-right"><span class="hero-margin" id="cmMargin">공헌이익률 0%</span><br><span id="cmRoas">ROAS 0.0</span></div></div>
+  <div class="hero-mini"><div>노출/월<b id="sImp">0</b></div><div>클릭/월<b id="sClk">0</b></div><div>주문/월<b id="sOrd">0</b></div><div>매출/월<b id="sRev">₩0</b></div></div>
+  <div class="cpa-note">전환당 광고비(CPA) <b id="cpa">₩0</b> · CPM·CTR·CVR로 환산한 실효 획득단가</div></div>
+<div class="sec-title">입력 변수</div>
+<div class="sec-note">탭=브랜드 / 기간=최근7일·오늘. 효율 지표는 실측 자동 적용(절대 매출·집행액은 비노출). 예산은 직접 입력해 시뮬레이션하세요. 모든 결과는 월 기준.</div>
+<div class="ctrl" data-key="budget" data-min="500000" data-max="150000000" data-step="500000" data-pre="₩">
+  <div class="ctrl-head"><div class="ctrl-name">광고예산 <small>/월 (직접 입력)</small></div></div>
+  <div class="budget-toggle"><button class="btab on" id="btnDefault">기본 1억</button></div></div>
+<div class="ctrl" data-key="cpm" data-min="2000" data-max="100000" data-step="500" data-pre="₩"><div class="ctrl-head"><div class="ctrl-name">CPM <small>1,000노출당</small></div></div></div>
+<div class="ctrl" data-key="ctr" data-min="0.1" data-max="8" data-step="0.1" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">CTR <small>클릭률</small></div></div></div>
+<div class="ctrl" data-key="cvr" data-min="0.1" data-max="10" data-step="0.1" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">CVR <small>구매전환율</small></div></div></div>
+<div class="ctrl" data-key="aov" data-min="5000" data-max="200000" data-step="1000" data-pre="₩"><div class="ctrl-head"><div class="ctrl-name">객단가 AOV</div></div></div>
+<div class="ctrl" data-key="cogs" data-min="5" data-max="80" data-step="1" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">원가율</div></div></div>
+<div class="ctrl" data-key="fee" data-min="0" data-max="20" data-step="0.01" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">마켓 수수료</div></div></div>
+<div class="ctrl" data-key="ship" data-min="0" data-max="10000" data-step="100" data-pre="₩"><div class="ctrl-head"><div class="ctrl-name">배송비 <small>건당</small></div></div></div>
+<div class="sec-title">지렛대 분석</div>
+<div class="lev-intro">각 변수를 <b>현실적으로 한 단계</b> 개선했을 때 공헌이익이 얼마나 늘어나는지 비교. 막대가 가장 긴 항목이 진짜 병목입니다.</div>
+<div id="levers"></div>
+<div class="verdict" id="verdict"><div class="verdict-l">진단</div><div class="verdict-t" id="verdictText">—</div></div>
+<footer id="foot"></footer></div>
+<script>
+const SIM={"generatedAt":"2026-06-15","feePct":3,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":19054,"ctr":5.03,"cvr":5.07,"aov":49220,"cogs":32.29,"fee":3,"ship":3800,"roas":6.59},"daily":{"cpm":23597,"ctr":5.56,"cvr":7.47,"aov":53158,"cogs":38.21,"fee":3,"ship":3800,"roas":9.36}},"b1":{"label":"모아람","weekly":{"cpm":29412,"ctr":2.23,"cvr":4.17,"aov":69168,"cogs":26.5,"fee":3,"ship":3800,"roas":2.18},"daily":{"cpm":30004,"ctr":1.86,"cvr":4.41,"aov":75692,"cogs":26.86,"fee":3,"ship":3800,"roas":2.07}},"b2":{"label":"사운드판다","weekly":{"cpm":11915,"ctr":1.27,"cvr":1.39,"aov":99848,"cogs":19.06,"fee":3,"ship":3800,"roas":1.47},"daily":{"cpm":12304,"ctr":1.07,"cvr":1.46,"aov":97540,"cogs":19.55,"fee":3,"ship":3800,"roas":1.24}},"b3":{"label":"오로셀레스테","weekly":{"cpm":80177,"ctr":4.19,"cvr":1.74,"aov":160603,"cogs":22.42,"fee":3,"ship":3800,"roas":1.46},"daily":{"cpm":86587,"ctr":4.21,"cvr":1.7,"aov":181111,"cogs":23.19,"fee":3,"ship":3800,"roas":1.5}}}};
+const $=id=>document.getElementById(id);
+const won=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
+const num=n=>Math.round(n).toLocaleString('ko-KR');
+const STEP={cpm:-0.10,ctr:+0.2,cvr:+0.3,aov:+0.05,cogs:-2,fee:-0.5,ship:-500};
+const DEFAULT_BUDGET=100000000;
+const KEYS=Object.keys(SIM.brands);
+let cur=KEYS[0], period='weekly';
+const state={};
+$('subhead').textContent=SIM.generatedAt+' 채널 리포트 기준 · 지표 실측(절대 매출·집행액 비노출) · 예산 입력형 what-if';
+function preset(){return SIM.brands[cur][period];}
+$('tabs').innerHTML=KEYS.map(k=>{const b=SIM.brands[k];const ro=b.weekly.roas;return '<div class="tab'+(k===cur?' on':'')+'" data-k="'+k+'"><div class="tn">'+b.label+'</div><div class="tr">ROAS '+(ro==null?'-':Math.round(ro*100))+'</div></div>';}).join('');
+$('tabs').querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{cur=t.dataset.k;$('tabs').querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.dataset.k===cur));loadPreset();}));
+$('pWeekly').addEventListener('click',()=>{period='weekly';$('pWeekly').classList.add('on');$('pDaily').classList.remove('on');loadPreset();});
+$('pDaily').addEventListener('click',()=>{period='daily';$('pDaily').classList.add('on');$('pWeekly').classList.remove('on');loadPreset();});
+const isPct=k=>['ctr','cvr','cogs','fee'].includes(k);
+const fmt=(k,v)=>v==null?'':(isPct(k)?(+v).toFixed(2):Math.round(+v).toLocaleString('ko-KR'));
+const ctrls={};
+document.querySelectorAll('.ctrl').forEach(c=>{
+  const k=c.dataset.key,min=+c.dataset.min,max=+c.dataset.max,step=+c.dataset.step,pre=c.dataset.pre||'',suf=c.dataset.suf||'';
+  const head=c.querySelector('.ctrl-head');const box=document.createElement('div');box.className='input-wrap';
+  box.innerHTML=(pre?'<span class="pre">'+pre+'</span>':'')+'<input class="txt" type="text" inputmode="'+(isPct(k)?'decimal':'numeric')+'" id="t_'+k+'">'+(suf?'<span class="suf">'+suf+'</span>':'');
+  head.appendChild(box);
+  const sl=document.createElement('input');sl.type='range';sl.id='r_'+k;sl.min=min;sl.max=max;sl.step=step;c.appendChild(sl);
+  ctrls[k]={sl};
+  const sync=(v,from)=>{v=isNaN(v)?state[k]:v;state[k]=v;if(from!=='range')sl.value=v;if(from!=='text')$('t_'+k).value=fmt(k,v);render();};
+  sl.addEventListener('input',e=>sync(+e.target.value,'range'));
+  $('t_'+k).addEventListener('input',e=>{const v=parseFloat(e.target.value.replace(/,/g,''));if(!isNaN(v))sync(v,'text');});
+  $('t_'+k).addEventListener('blur',()=>{$('t_'+k).value=fmt(k,state[k]);});
+});
+$('btnDefault').addEventListener('click',()=>{state.budget=DEFAULT_BUDGET;ctrls.budget.sl.value=DEFAULT_BUDGET;$('t_budget').value=fmt('budget',DEFAULT_BUDGET);$('btnDefault').classList.add('on');render();});
+function loadPreset(){
+  const p=preset();
+  ['cpm','ctr','cvr','aov','cogs','fee','ship'].forEach(k=>{const v=p[k];state[k]=v;ctrls[k].sl.value=v==null?ctrls[k].sl.min:v;$('t_'+k).value=fmt(k,v);});
+  if(state.budget==null){state.budget=DEFAULT_BUDGET;}
+  ctrls.budget.sl.value=state.budget;$('t_budget').value=fmt('budget',state.budget);
+  $('heroLab').textContent=SIM.brands[cur].label+' · 예상 공헌이익 / 월';
+  render();
+}
+function calc(p){const imp=p.cpm>0?p.budget/p.cpm*1000:0;const clk=imp*(p.ctr/100);const ord=clk*(p.cvr/100);const rev=ord*p.aov;
+  const cm=rev-rev*(p.cogs/100)-rev*(p.fee/100)-ord*p.ship-p.budget;const cpa=ord?p.budget/ord:0;
+  return {imp,clk,ord,rev,cm,cpa,roas:p.budget?rev/p.budget:0,margin:rev?cm/rev*100:0};}
+function render(){
+  const p={...state};
+  if([p.cpm,p.ctr,p.cvr,p.aov,p.cogs].some(v=>v==null)){$('verdictText').textContent='이 기간 데이터가 부족합니다.';return;}
+  const r=calc(p);const neg=r.cm<0;
+  $('cmBig').textContent=won(r.cm);$('cmBig').className='hero-num'+(neg?' neg':'');
+  $('cmMargin').textContent='공헌이익률 '+r.margin.toFixed(1)+'%';$('cmMargin').className='hero-margin'+(neg?' neg':'');
+  $('cmRoas').textContent='ROAS '+r.roas.toFixed(2);
+  $('sImp').textContent=num(r.imp);$('sClk').textContent=num(r.clk);$('sOrd').textContent=num(r.ord);$('sRev').textContent=won(r.rev);$('cpa').textContent=won(r.cpa);
+  const base=r.cm;
+  const sc=[
+    {name:'CPM 낮추기',test:'−10%',mod:p=>({...p,cpm:p.cpm*(1+STEP.cpm)})},
+    {name:'CTR 올리기',test:'+0.2%p',mod:p=>({...p,ctr:p.ctr+STEP.ctr})},
+    {name:'CVR 올리기',test:'+0.3%p',mod:p=>({...p,cvr:p.cvr+STEP.cvr})},
+    {name:'객단가 올리기',test:'+5%',mod:p=>({...p,aov:p.aov*(1+STEP.aov)})},
+    {name:'원가율 낮추기',test:'−2%p',mod:p=>({...p,cogs:p.cogs+STEP.cogs})},
+    {name:'수수료 낮추기',test:'−0.5%p',mod:p=>({...p,fee:Math.max(0,p.fee+STEP.fee)})},
+    {name:'배송비 낮추기',test:'−500원',mod:p=>({...p,ship:Math.max(0,p.ship+STEP.ship)})},
+  ].map(s=>({...s,delta:calc(s.mod(p)).cm-base}));
+  const maxAbs=Math.max(...sc.map(s=>Math.abs(s.delta)),1);sc.sort((a,b)=>b.delta-a.delta);
+  $('levers').innerHTML=sc.map((s,i)=>{const up=s.delta>=0,w=Math.abs(s.delta)/maxAbs*100,isWin=(i===0&&s.delta>0);
+    return '<div class="lev '+(isWin?'lev-winner':'')+'"><div class="lev-head"><div class="lev-name">'+s.name+'<span class="test">'+s.test+'</span></div><div class="lev-impact '+(up?'up':'down')+'">'+(up?'+':'')+won(s.delta)+'</div></div><div class="lev-bar"><div class="lev-fill" style="width:'+w+'%;background:'+(up?(isWin?'var(--gold)':'var(--green-bright)'):'var(--red)')+'"></div></div></div>';}).join('');
+  const winner=sc[0],v=$('verdict'),vt=$('verdictText');
+  if(neg){v.className='verdict warn';vt.innerHTML='현재 구조는 <span class="r">적자('+won(r.cm)+')</span>. 최대 지렛대는 <b>'+winner.name+'('+winner.test+')</b> — 단독 +'+won(winner.delta)+'. 흑자까지 1~2개 동시 조정 필요.';}
+  else if(r.roas<1.8){v.className='verdict warn';vt.innerHTML='흑자지만 <span class="r">마진 '+r.margin.toFixed(1)+'%로 얇음.</span> 가장 효율 높은 한 수는 <b>'+winner.name+'('+winner.test+')</b> → +'+won(winner.delta)+'.';}
+  else{v.className='verdict';vt.innerHTML='구조 건강(마진 '+r.margin.toFixed(1)+'%). 지금 집중할 단 하나는 <b>'+winner.name+'</b> — +'+won(winner.delta)+'로 가장 크게 움직임.';}
+}
+$('foot').innerHTML='데이터: '+SIM.generatedAt+' 채널 리포트(매일 자동 갱신). CPM·CTR·CVR·객단가·원가율은 실측 지표(7일 평균 / 오늘). <b style="color:var(--gold-soft)">절대 매출·집행액·원가(원)는 담지 않습니다</b> — 예산을 직접 입력해 what-if 계산.<br>수수료('+SIM.feePct+'%)·배송비(3,800원)는 가정치 — 실제 정산값으로 덮어쓰면 정확도 상승. CPA=광고비÷전환.';
+loadPreset();
+</script></body></html>
