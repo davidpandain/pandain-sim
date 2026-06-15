@@ -22,6 +22,7 @@ h1 .ko{display:block;font-family:'Noto Sans KR';font-weight:300;font-size:12px;l
 .period{display:flex;gap:6px;margin:8px 0 2px}
 .ptab{flex:1;padding:8px;background:var(--panel2);border:1px solid var(--line);border-radius:20px;text-align:center;font-size:12px;color:var(--ink-dim);cursor:pointer}
 .ptab.on{color:var(--bg);background:var(--gold);border-color:var(--gold);font-weight:500}
+.hero-stick{position:sticky;top:0;z-index:50;background:var(--bg);padding:6px 18px 0;margin:0 -18px}
 .hero{margin:10px 0 12px;padding:16px 18px;background:linear-gradient(165deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid var(--line);border-radius:4px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.45)}
 .hero::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
 .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
@@ -70,12 +71,14 @@ footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-si
 <header><div class="eyebrow">Pandain · Meta → 자사몰 단위경제</div>
 <h1>브랜드별 공헌이익 시뮬레이터<span class="ko" id="subhead"></span></h1></header>
 <div class="tabs" id="tabs"></div>
+<div class="hero-stick">
 <div class="period"><button class="ptab on" id="pWeekly">최근 7일 평균</button><button class="ptab" id="pDaily">오늘(일별)</button></div>
 <div class="hero">
   <div class="hero-row"><div><div class="hero-lab" id="heroLab">예상 공헌이익 / 월</div><div class="hero-num" id="cmBig">₩0</div></div>
   <div class="hero-right"><span class="hero-margin" id="cmMargin">공헌이익률 0%</span><br><span id="cmRoas">ROAS 0.0</span></div></div>
   <div class="hero-mini"><div>노출/월<b id="sImp">0</b></div><div>클릭/월<b id="sClk">0</b></div><div>주문/월<b id="sOrd">0</b></div><div>매출/월<b id="sRev">₩0</b></div></div>
   <div class="cpa-note">전환당 광고비(CPA) <b id="cpa">₩0</b> · CPM·CTR·CVR로 환산한 실효 획득단가</div></div>
+</div>
 <div class="sec-title">입력 변수</div>
 <div class="sec-note">탭=브랜드 / 기간=최근7일·오늘. 효율 지표는 실측 자동 적용(절대 매출·원가는 비노출). 예산은 <b style="color:var(--gold-soft)">현재 기준 30일</b>(최근7일 오늘제외 일평균×30) 또는 직접 입력으로 시뮬레이션. 모든 결과는 월 기준.</div>
 <div class="ctrl" data-key="budget" data-min="500000" data-max="150000000" data-step="500000" data-pre="₩">
@@ -94,7 +97,7 @@ footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-si
 <div class="verdict" id="verdict"><div class="verdict-l">진단</div><div class="verdict-t" id="verdictText">—</div></div>
 <footer id="foot"></footer></div>
 <script>
-const SIM={"generatedAt":"2026-06-15","feePct":3,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":19056,"ctr":5.01,"cvr":5.05,"aov":49374,"cogs":32.24,"fee":3,"ship":3800,"roas":6.56},"daily":{"cpm":23285,"ctr":5.36,"cvr":7.18,"aov":54094,"cogs":37.82,"fee":3,"ship":3800,"roas":8.94},"spend30":10282239},"b1":{"label":"모아람","weekly":{"cpm":29329,"ctr":2.21,"cvr":4.14,"aov":68845,"cogs":26.5,"fee":3,"ship":3800,"roas":2.15},"daily":{"cpm":29475,"ctr":1.82,"cvr":4.22,"aov":73262,"cogs":26.89,"fee":3,"ship":3800,"roas":1.91},"spend30":50094840},"b2":{"label":"사운드판다","weekly":{"cpm":11912,"ctr":1.26,"cvr":1.38,"aov":101877,"cogs":19.19,"fee":3,"ship":3800,"roas":1.49},"daily":{"cpm":12250,"ctr":1.08,"cvr":1.36,"aov":117160,"cogs":20.6,"fee":3,"ship":3800,"roas":1.4},"spend30":43894736},"b3":{"label":"오로셀레스테","weekly":{"cpm":80056,"ctr":4.17,"cvr":1.75,"aov":158432,"cogs":22.42,"fee":3,"ship":3800,"roas":1.45},"daily":{"cpm":85200,"ctr":4.12,"cvr":1.79,"aov":163000,"cogs":23.19,"fee":3,"ship":3800,"roas":1.41},"spend30":33557096}}};
+const SIM={"generatedAt":"2026-06-15","feePct":3,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":19051,"ctr":5,"cvr":5.04,"aov":49469,"cogs":32.18,"fee":3,"ship":3800,"roas":6.55},"daily":{"cpm":23095,"ctr":5.26,"cvr":7.07,"aov":54667,"cogs":37.42,"fee":3,"ship":3800,"roas":8.8},"spend30":10282239},"b1":{"label":"사운드판다","weekly":{"cpm":11910,"ctr":1.26,"cvr":1.39,"aov":101179,"cogs":19.19,"fee":3,"ship":3800,"roas":1.49},"daily":{"cpm":12222,"ctr":1.07,"cvr":1.41,"aov":109838,"cogs":20.6,"fee":3,"ship":3800,"roas":1.36},"spend30":43894736},"b2":{"label":"오로셀레스테","weekly":{"cpm":79959,"ctr":4.18,"cvr":1.75,"aov":159500,"cogs":22.54,"fee":3,"ship":3800,"roas":1.45},"daily":{"cpm":84355,"ctr":4.13,"cvr":1.73,"aov":170900,"cogs":23.99,"fee":3,"ship":3800,"roas":1.45},"spend30":33557096}}};
 const $=id=>document.getElementById(id);
 const won=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
 const num=n=>Math.round(n).toLocaleString('ko-KR');
