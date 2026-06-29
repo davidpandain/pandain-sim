@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <title>브랜드별 공헌이익 시뮬레이터 — PANDAIN</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -97,7 +98,7 @@ footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-si
 <div class="verdict" id="verdict"><div class="verdict-l">진단</div><div class="verdict-t" id="verdictText">—</div></div>
 <footer id="foot"></footer></div>
 <script>
-const SIM={"generatedAt":"2026-06-29","feePct":3,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":18899,"ctr":3.73,"cvr":10.53,"aov":51679,"cogs":18.21,"fee":3,"ship":3800,"roas":10.73},"daily":{"cpm":20397,"ctr":3.61,"cvr":10.23,"aov":48180,"cogs":26.5,"fee":3,"ship":3800,"roas":8.72},"spend30":5560011},"b1":{"label":"모아람","weekly":{"cpm":24117,"ctr":1.83,"cvr":3.55,"aov":71177,"cogs":25.45,"fee":3,"ship":3800,"roas":1.92},"daily":{"cpm":23024,"ctr":1.7,"cvr":3.63,"aov":75268,"cogs":25.67,"fee":3,"ship":3800,"roas":2.02},"spend30":64140219},"b2":{"label":"사운드판다","weekly":{"cpm":8496,"ctr":0.96,"cvr":1.51,"aov":721533,"cogs":27.3,"fee":3,"ship":3800,"roas":12.26},"daily":{"cpm":null,"ctr":null,"cvr":null,"aov":null,"cogs":60.75,"fee":3,"ship":3800,"roas":null},"spend30":1362244},"b3":{"label":"오로셀레스테","weekly":{"cpm":85287,"ctr":4.25,"cvr":2.28,"aov":218154,"cogs":22.73,"fee":3,"ship":3800,"roas":2.48},"daily":{"cpm":97644,"ctr":4.64,"cvr":3.31,"aov":171125,"cogs":24.47,"fee":3,"ship":3800,"roas":2.69},"spend30":14047654}}};
+const SIM={"generatedAt":"2026-06-29","feePct":3,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":18895,"ctr":3.71,"cvr":10.5,"aov":51434,"cogs":18.2,"fee":3,"ship":3800,"roas":10.6},"daily":{"cpm":20165,"ctr":3.53,"cvr":10.05,"aov":46767,"cogs":25.77,"fee":3,"ship":3800,"roas":8.22},"spend30":5560011},"b1":{"label":"모아람","weekly":{"cpm":24131,"ctr":1.83,"cvr":3.57,"aov":71295,"cogs":25.45,"fee":3,"ship":3800,"roas":1.92},"daily":{"cpm":23211,"ctr":1.67,"cvr":3.78,"aov":76088,"cogs":25.69,"fee":3,"ship":3800,"roas":2.07},"spend30":64140261},"b2":{"label":"사운드판다","weekly":{"cpm":8496,"ctr":0.96,"cvr":1.51,"aov":721533,"cogs":27.3,"fee":3,"ship":3800,"roas":12.26},"daily":{"cpm":null,"ctr":null,"cvr":null,"aov":null,"cogs":60.75,"fee":3,"ship":3800,"roas":null},"spend30":1362244},"b3":{"label":"오로셀레스테","weekly":{"cpm":85176,"ctr":4.25,"cvr":2.32,"aov":214925,"cogs":22.87,"fee":3,"ship":3800,"roas":2.49},"daily":{"cpm":96144,"ctr":4.63,"cvr":3.52,"aov":162000,"cogs":25.17,"fee":3,"ship":3800,"roas":2.74},"spend30":14047654}}};
 const $=id=>document.getElementById(id);
 const won=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
 const num=n=>Math.round(n).toLocaleString('ko-KR');
