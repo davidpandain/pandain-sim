@@ -90,15 +90,15 @@ footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-si
 <div class="ctrl" data-key="cvr" data-min="0.1" data-max="10" data-step="0.1" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">CVR <small>구매전환율</small></div></div></div>
 <div class="ctrl" data-key="aov" data-min="5000" data-max="200000" data-step="1000" data-pre="₩"><div class="ctrl-head"><div class="ctrl-name">객단가 AOV</div></div></div>
 <div class="ctrl" data-key="cogs" data-min="5" data-max="80" data-step="1" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">원가율</div></div></div>
-<div class="ctrl" data-key="fee" data-min="0" data-max="20" data-step="0.01" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">마켓 수수료</div></div></div>
-<div class="ctrl" data-key="ship" data-min="0" data-max="10000" data-step="100" data-pre="₩"><div class="ctrl-head"><div class="ctrl-name">배송비 <small>건당</small></div></div></div>
+<div class="ctrl" data-key="fee" data-min="0" data-max="20" data-step="0.01" data-suf="%"><div class="ctrl-head"><div class="ctrl-name">결제 수수료</div></div></div>
+<div class="ctrl" data-key="ship" data-min="0" data-max="10000" data-step="100" data-pre="₩"><div class="ctrl-head"><div class="ctrl-name">배송비 <small>주문당 순 배송비(고객 부담 뺀 값)</small></div></div></div>
 <div class="sec-title">지렛대 분석</div>
 <div class="lev-intro">각 변수를 <b>현실적으로 한 단계</b> 개선했을 때 공헌이익이 얼마나 늘어나는지 비교. 막대가 가장 긴 항목이 진짜 병목입니다.</div>
 <div id="levers"></div>
 <div class="verdict" id="verdict"><div class="verdict-l">진단</div><div class="verdict-t" id="verdictText">—</div></div>
 <footer id="foot"></footer></div>
 <script>
-const SIM={"generatedAt":"2026-10-09","feePct":3.96,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":37791,"ctr":3.79,"cvr":7.5,"aov":45180,"cogs":29.04,"fee":3.96,"ship":3800,"roas":3.4},"daily":{"cpm":37714,"ctr":3.84,"cvr":8.12,"aov":50404,"cogs":30.35,"fee":3.96,"ship":3800,"roas":4.17}},"b1":{"label":"모아람","weekly":{"cpm":40331,"ctr":2.31,"cvr":4.86,"aov":60426,"cogs":32.83,"fee":3.96,"ship":3800,"roas":1.68},"daily":{"cpm":45380,"ctr":2.34,"cvr":5.12,"aov":49985,"cogs":32.18,"fee":3.96,"ship":3800,"roas":1.32}},"b2":{"label":"사운드판다","weekly":{"cpm":12928,"ctr":1.29,"cvr":1.47,"aov":356287,"cogs":24.53,"fee":3.96,"ship":3800,"roas":5.22},"daily":{"cpm":12583,"ctr":1.42,"cvr":0.45,"aov":434200,"cogs":44.43,"fee":3.96,"ship":3800,"roas":2.2}},"b3":{"label":"오로셀레스테","weekly":{"cpm":68149,"ctr":3.42,"cvr":1.32,"aov":136073,"cogs":34.46,"fee":3.96,"ship":3800,"roas":0.9},"daily":{"cpm":82750,"ctr":3.63,"cvr":0.86,"aov":208000,"cogs":31.07,"fee":3.96,"ship":3800,"roas":0.79}}}};
+const SIM={"generatedAt":"2026-10-09","feePct":3.96,"vatPct":10,"brands":{"b0":{"label":"트렌딜","weekly":{"cpm":37752,"ctr":3.79,"cvr":7.54,"aov":45215,"cogs":46.99,"fee":3.96,"vat":10,"ship":1349,"shipReal":true,"roas":3.42},"daily":{"cpm":37422,"ctr":3.81,"cvr":8.38,"aov":50293,"cogs":40.17,"fee":3.96,"vat":10,"ship":1839,"shipReal":true,"roas":4.29}},"b1":{"label":"모아람","weekly":{"cpm":40330,"ctr":2.32,"cvr":4.82,"aov":60558,"cogs":32.82,"fee":3.96,"vat":10,"ship":2112,"shipReal":true,"roas":1.68},"daily":{"cpm":45144,"ctr":2.37,"cvr":4.81,"aov":51135,"cogs":32.13,"fee":3.96,"vat":10,"ship":1724,"shipReal":true,"roas":1.29}},"b2":{"label":"사운드판다","weekly":{"cpm":12940,"ctr":1.29,"cvr":1.43,"aov":356287,"cogs":24.53,"fee":3.96,"vat":10,"ship":2808,"shipReal":true,"roas":5.06},"daily":{"cpm":12628,"ctr":1.41,"cvr":0.43,"aov":434200,"cogs":44.43,"fee":3.96,"vat":10,"ship":3125,"shipReal":true,"roas":2.07}},"b3":{"label":"오로셀레스테","weekly":{"cpm":68159,"ctr":3.42,"cvr":1.32,"aov":136073,"cogs":34.46,"fee":3.96,"vat":10,"ship":3441,"shipReal":true,"roas":0.9},"daily":{"cpm":82219,"ctr":3.63,"cvr":0.82,"aov":208000,"cogs":31.07,"fee":3.96,"vat":10,"ship":3500,"shipReal":true,"roas":0.75}}}};
 const $=id=>document.getElementById(id);
 const won=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
 const num=n=>Math.round(n).toLocaleString('ko-KR');
@@ -143,13 +143,15 @@ $('t_budget').addEventListener('input',()=>{budgetMode='custom';setBudgetButtons
 function loadPreset(){
   const p=preset();
   ['cpm','ctr','cvr','aov','cogs','fee','ship'].forEach(k=>{const v=p[k];state[k]=v;ctrls[k].sl.value=v==null?ctrls[k].sl.min:v;$('t_'+k).value=fmt(k,v);});
+  state.vat=p.vat==null?0:p.vat;
   if(budgetMode==='custom'){ctrls.budget.sl.value=state.budget;$('t_budget').value=fmt('budget',state.budget);} else applyBudget();
   setBudgetButtons();
   $('heroLab').textContent=SIM.brands[cur].label+' · 예상 공헌이익 / 월';
   render();
 }
 function calc(p){const imp=p.cpm>0?p.budget/p.cpm*1000:0;const clk=imp*(p.ctr/100);const ord=clk*(p.cvr/100);const rev=ord*p.aov;
-  const cm=rev-rev*(p.cogs/100)-rev*(p.fee/100)-ord*p.ship-p.budget;const cpa=ord?p.budget/ord:0;
+  const vat=((p.vat==null?0:p.vat)/100)*(rev-rev*(p.cogs/100)-ord*p.ship);
+  const cm=rev-rev*(p.cogs/100)-rev*(p.fee/100)-ord*p.ship-vat-p.budget;const cpa=ord?p.budget/ord:0;
   return {imp,clk,ord,rev,cm,cpa,roas:p.budget?rev/p.budget:0,margin:rev?cm/rev*100:0};}
 function render(){
   const p={...state};
@@ -177,6 +179,6 @@ function render(){
   else if(r.roas<1.8){v.className='verdict warn';vt.innerHTML='흑자지만 <span class="r">마진 '+r.margin.toFixed(1)+'%로 얇음.</span> 가장 효율 높은 한 수는 <b>'+winner.name+'('+winner.test+')</b> → +'+won(winner.delta)+'.';}
   else{v.className='verdict';vt.innerHTML='구조 건강(마진 '+r.margin.toFixed(1)+'%). 지금 집중할 단 하나는 <b>'+winner.name+'</b> — +'+won(winner.delta)+'로 가장 크게 움직임.';}
 }
-$('foot').innerHTML='데이터: '+SIM.generatedAt+' 채널 리포트(매일 자동 갱신). CPM·CTR·CVR·객단가·원가율은 실측 지표(7일 평균 / 오늘). 매출·집행액·원가(원)는 비노출 — 예산(기본 1억)은 가정치, 직접 입력으로 what-if 계산.<br>수수료('+SIM.feePct+'%)·배송비(3,800원)는 가정치 — 실제 정산값으로 덮어쓰면 정확도 상승. CPA=광고비÷전환.';
+$('foot').innerHTML='데이터: '+SIM.generatedAt+' 채널 리포트(매일 자동 갱신). CPM·CTR·CVR·객단가·원가율은 실측 지표(7일 평균 / 오늘). 매출·집행액·원가(원)는 비노출 — 예산(기본 1억)은 가정치, 직접 입력으로 what-if 계산.<br>결제 수수료('+SIM.feePct+'%)·부가세('+(SIM.vatPct==null?0:SIM.vatPct)+'% × (매출 − 원가 − 배송비))를 빼고, 배송비는 브랜드 실측 주문당 순 배송비(고객 부담 뺀 값 · 기록 없으면 3,800원) — 운영실 공헌이익과 같은 정의. CPA=광고비÷전환.';
 loadPreset();
 </script></body></html>
